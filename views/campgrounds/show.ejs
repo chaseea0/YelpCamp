@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= campground.title %></title>
+  <title>Campground Information</title>
 </head>
 
 <body>
@@ -12,6 +12,9 @@
   <h2><%= campground.location %></h2>
   <h3><a href="/campgrounds/<%= campground.id %>/edit">Edit this Campground</a></h3>
   <h3><a href="/campgrounds">Back to List</a></h3>
+  <form action="/campgrounds/<%= campground.id %>?_method=DELETE" method="POST">
+    <button>Delete Campground</button>
+  </form>
 </body>
 
 </html>

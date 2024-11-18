@@ -1,26 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Camp</title>
-</head>
-
-<body>
-  <form action="/campgrounds" method="POST">
-    <div>
-      <label for="title">Title</label>
-      <input type="text" id="title" name="campground[title]">
-      <!-- The 'name' field allows us to group our data more specifically. -->
-      <!-- Here all of our data gets grouped under "campground" -->
-    </div>
-    <div>
-      <label for="location">Location</label>
-      <input type="text" id="location" name="campground[location]">
-    </div>
-    <button>Add Campground</button>
-  </form>
-</body>
-
-</html>
+<% layout('layouts/boilerplate')%>
+<form action="/campgrounds" method="POST">
+  <div>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="campground[title]">
+    <!-- The 'name' field allows us to group our data more specifically. -->
+    <!-- Here all of our data gets grouped under "campground" -->
+  </div>
+  <div>
+    <label for="location">Location</label>
+    <input type="text" id="location" name="campground[location]">
+  </div>
+  <button>Add Campground</button>
+</form>

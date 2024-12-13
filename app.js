@@ -22,6 +22,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'));
 
+
 app.get('/', (req, res) => {
     res.render('home');
 })
@@ -35,14 +36,18 @@ app.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new');
 })
 
-app.post('/campgrounds', async (req, res) => {
+app.post('/campgrounds', async (req, res, next) => {
     /* 
     Below, we have to use req.body.campground (instead of just req.body) because we use 
     the 'name' attribute in our new.ejs file to group our data together.
     */
-    const newCampground = new Campground(req.body.campground);
-    await newCampground.save();
-    res.redirect(`/campgrounds/${newCampground.id}`);
+    try {
+        const newCampground = new Campground(req.body.campground);
+        await newCampground.save();
+        res.redirect(`/campgrounds/${newCampground.id}`);
+    } catch (e) {
+        next(e);
+    }
 })
 
 app.get('/campgrounds/:id/edit', async (req, res) => {
@@ -66,6 +71,10 @@ app.delete('/campgrounds/:id', async (req, res) => {
 app.get('/campgrounds/:id', async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     res.render('campgrounds/show', { campground });
+})
+
+app.use((err, req, res, next) => {
+    res.send("Oh boy, something went wrong.")
 })
 
 app.listen(3000, () => {

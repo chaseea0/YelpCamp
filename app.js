@@ -29,10 +29,10 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
-app.get('/campgrounds', async (req, res) => {
+app.get('/campgrounds', catchAsync(async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds });
-})
+}))
 
 app.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new');
@@ -72,8 +72,13 @@ app.get('/campgrounds/:id', catchAsync(async (req, res) => {
     res.render('campgrounds/show', { campground });
 }))
 
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page not found -- ExpressError', 404));
+})
+
 app.use((err, req, res, next) => {
-    res.send('Oh boy, something went wrong!');
+    const { statusCode = 500, message = 'Something went wrong - ExpressError' } = err;
+    res.status(statusCode).send(message);
 })
 
 app.listen(3000, () => {

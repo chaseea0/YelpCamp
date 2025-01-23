@@ -21,17 +21,47 @@
         2 days ago
       </div>
     </div>
+
     <h2>Leave a Review</h2>
-    <form class="mb-3" action="/campgrounds/<%= campground.id %>/reviews" method="POST">
+    <form class="mb-3 needs-validation" action="/campgrounds/<%= campground.id %>/reviews" method="POST" novalidate>
       <div class="mb-3">
         <label class="form-label" for="rating">Rating</label>
         <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
       </div>
       <div class="mb-3">
         <label class="form-label" for="body">Review</label>
-        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3"></textarea>
+        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Reviews cannot be blank.
+        </div>
       </div>
       <button class="btn btn-success">Submit</button>
     </form>
   </div>
 </div>
+
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function() {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms)
+      .forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+</script>

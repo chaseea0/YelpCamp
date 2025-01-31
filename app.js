@@ -105,6 +105,14 @@ app.get('/campgrounds/:id', catchAsync(async (req, res) => {
     res.render('campgrounds/show', { campground });
 }))
 
+// The route looks this way because we need to delete the review itself, and remove the reference from the campground
+app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params; // req.params.reviewId matches the route
+    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/campgrounds/${id}`);
+}))
+
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page not found -- ExpressError', 404));
 })
